@@ -53,28 +53,50 @@ async function loadNumbers() {
 document.getElementById("reservation-form").addEventListener("submit", async event => {
   event.preventDefault();
   if (!selectedNumber) return;
-  const form = new FormData(event.currentTarget);
+
+  // Guarda a referência do formulário antes dos awaits
+  const reservationForm = event.currentTarget;
+  const form = new FormData(reservationForm);
+
   reserveButton.disabled = true;
   reserveButton.textContent = "Enviando...";
   feedback.textContent = "";
+
   try {
     const response = await fetch("/api/reservations", {
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({number:selectedNumber,name:form.get("name"),phone:form.get("phone")})
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        number: selectedNumber,
+        name: form.get("name"),
+        phone: form.get("phone")
+      })
     });
+
     const data = await response.json();
-    if (!response.ok) throw new Error(data.error || "Não foi possível reservar.");
+
+    if (!response.ok) {
+      throw new Error(data.error || "Não foi possível reservar.");
+    }
+
     feedback.textContent = data.message;
     feedback.className = "feedback success";
-    event.currentTarget.reset();
+
+    // Reseta o formulário usando a referência armazenada
+    reservationForm.reset();
+
     selectedNumber = null;
     selectedEl.textContent = "Nenhum";
+
     await loadNumbers();
+
   } catch (error) {
     feedback.textContent = error.message;
     feedback.className = "feedback error";
+
     reserveButton.disabled = false;
     await loadNumbers();
+
   } finally {
     reserveButton.textContent = "Solicitar reserva — R$ 15,00";
   }
