@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#35105d">
+  <title>Rifa Tupperware | R$ 15,00</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">RIFA <span>TUPPERWARE</span></div>
+    <div class="price">Cada número <strong>R$ 15,00</strong></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <img src="/assets/flyer.png" alt="Flyer da rifa Tupperware com os produtos do prêmio">
+      <div class="hero-copy">
+        <p class="eyebrow">SORTEIO ESPECIAL</p>
+        <h1>Escolha seu número<br>e participe!</h1>
+        <p>Selecione um número disponível e preencha seus dados para solicitar a reserva.</p>
+      </div>
+    </section>
+
+    <section class="selection card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">01 — ESCOLHA</p>
+          <h2>Números da rifa</h2>
+        </div>
+        <div class="live"><i></i> Atualização ao vivo</div>
+      </div>
+      <div class="legend">
+        <span><b class="dot available"></b> Disponível</span>
+        <span><b class="dot reserved"></b> Reservado</span>
+        <span><b class="dot sold"></b> Vendido</span>
+      </div>
+      <div id="numbers" class="numbers" aria-label="Números disponíveis"></div>
+      <p id="load-message" class="muted" aria-live="polite">Carregando números...</p>
+    </section>
+
+    <section class="card form-card">
+      <p class="eyebrow">02 — RESERVA</p>
+      <h2>Finalize sua escolha</h2>
+      <p class="muted">Número selecionado: <strong id="selected-number">Nenhum</strong></p>
+      <form id="reservation-form">
+        <label for="buyer-name">Seu nome</label>
+        <input id="buyer-name" name="name" maxlength="100" autocomplete="name" required placeholder="Digite seu nome">
+        <label for="buyer-phone">Telefone / WhatsApp</label>
+        <input id="buyer-phone" name="phone" maxlength="30" autocomplete="tel" required placeholder="(00) 00000-0000">
+        <button id="reserve-button" type="submit" disabled>Solicitar reserva — R$ 15,00</button>
+      </form>
+      <p id="feedback" class="feedback" role="status"></p>
+      <p class="fine-print">A reserva fica pendente por 20 minutos. O responsável pela rifa confirmará o pagamento e a venda.</p>
+    </section>
+
+    <section class="admin card">
+      <details>
+        <summary>Área do responsável pela rifa</summary>
+        <p class="muted">Acesse com a chave administrativa configurada no servidor.</p>
+        <form id="admin-login" class="admin-login">
+          <input id="admin-token" type="password" placeholder="Chave administrativa" autocomplete="current-password">
+          <button type="submit" class="secondary">Entrar</button>
+        </form>
+        <p id="admin-feedback" class="feedback"></p>
+        <div id="admin-content" hidden>
+          <div class="admin-head">
+            <h3>Gerenciar números</h3>
+            <button id="refresh-admin" class="secondary" type="button">Atualizar</button>
+          </div>
+          <div id="admin-list" class="admin-list"></div>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <footer>Boa sorte! <span>•</span> Rifa Tupperware</footer>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
